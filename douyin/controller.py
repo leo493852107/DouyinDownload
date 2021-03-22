@@ -84,7 +84,8 @@ def convert():
             short_url = s.group(1)
             rediect_url = get_redirect_url(short_url)
             video_url = get_video_url(rediect_url)
-            return jsonify(status="ok", msg="ok", data=video_url)
+            file_name = re.search(r"(.*http)", text).group(1)[:-4].replace(' ', '') + '.mp4'
+            return jsonify(status="ok", msg="ok", data=video_url, file_name=file_name)
     except Exception as e:
         logger.error("convert error: %s" % str(e))
         return jsonify(status="error", msg=str(e))

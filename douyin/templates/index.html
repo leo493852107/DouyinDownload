@@ -51,10 +51,10 @@
 <script>
     $(function () {
         let video_url = ""
-
+        let file_name = ""
         function get_video_url() {
             let text = $("#text").val();
-            let data = {"text": text}
+            let data = {"text": text};
             $.ajax({
                 type: "post",
                 url: '/convert',
@@ -68,10 +68,12 @@
                     console.log(res)
                     if (res.status === "ok") {
                         video_url = res.data;
+                        file_name = res.file_name;
                         console.log("video_url: " + video_url)
                         if (video_url === "" || video_url === null || video_url === undefined) {
                             alert("提取视频链接失败")
                         }
+                        $("#text").val()=""
                     } else {
                         msg = res.msg;
                         alert(msg);
@@ -98,7 +100,7 @@
                 link.style.display = 'none'
                 link.href = blobUrl
                 // 设置a标签的下载属性，设置文件名及格式，后缀名最好让后端在数据格式中返回
-                link.download = '下载文件.mp4'
+                link.download = file_name
                 // 自触发click事件
                 link.click()
                 document.body.removeChild(link)
